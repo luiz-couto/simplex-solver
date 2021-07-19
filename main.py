@@ -1,8 +1,10 @@
 from matrix import *
+from readfile import *
 
 def main():
-    num_rest = 4
-    num_var = 5
-    initMatrix(num_rest, num_var)
+    num_rest, num_var = readSizes()
+    matrix = initMatrix(num_rest, num_var)
+    readInputMatrix(matrix, num_rest, num_var)
+    print(matrix)
 
 main()

@@ -17,6 +17,7 @@ def readInputMatrix(matrix, num_rest, num_var):
         index += 1
         matrix[0][i] = curr
 
+    # adding restriction as well as aux variables
     one_index = 0
     for i in range(1, num_rest+1):
         rest = input().split()

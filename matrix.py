@@ -20,20 +20,24 @@ def sumLines(matrix, line, target_index):
         matrix[target_index][j] = matrix[target_index][j] + line[j]
 
 def multiplyLineAndReturn(matrix, line_i, scalar):
-    newLine = np.empty((0))
-    for j in range(0, len(line_i)):
-        newLine.append(matrix[line_i][j] * scalar)
+    newLine = np.array([])
+    for j in range(0, len(matrix[line_i])):
+        newLine = np.append(newLine, matrix[line_i][j] * scalar)
+    return newLine
 
 def divideLine(matrix, line_i, scalar):
-    for j in range(0, len(line_i)):
+    for j in range(0, len(matrix[line_i])):
         matrix[line_i][j] = matrix[line_i][j] / scalar
 
 def pivoting(matrix, line_i, column_j):
     elem = matrix[line_i, column_j]
     divideLine(matrix, line_i, elem)
+    elem = matrix[line_i, column_j]
 
     for i in range(0, len(matrix)):
         selected = matrix[i][column_j]
+        if i == line_i or selected == 0:
+            continue
         factor = -selected/elem
         line = multiplyLineAndReturn(matrix, line_i, factor)
         sumLines(matrix, line, i)

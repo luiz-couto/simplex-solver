@@ -15,7 +15,7 @@ def readInputMatrix(matrix, num_rest, num_var):
     for i in range(start, num_var + start):
         curr = c_vector[index]
         index += 1
-        matrix[0][i] = curr
+        matrix[0][i] = -1 * int(curr)
 
     # adding restriction as well as aux variables
     one_index = 0

@@ -6,9 +6,9 @@ def main():
     num_rest, num_var = readSizes()
     matrix = initMatrix(num_rest, num_var)
     readInputMatrix(matrix, num_rest, num_var)
-    print(matrix)
 
     simplex = Simplex(matrix, num_rest, num_var)
+    simplex.printMatrix()
     
     nonPos = simplex.checkForNonPositiveBs()
     if len(nonPos) == 0:
@@ -34,6 +34,9 @@ def main():
     orig_c = simplex.getCandAux()
     aux_simplex.matrix[aux_simplex.cstart[0]:aux_simplex.cend[0]+1, aux_simplex.cstart[1]:aux_simplex.cend[1]+1] = orig_c
 
+    print("Apos substituicao do C")
+    aux_simplex.printMatrix()
+
     col_to_remove = []
     start = num_rest + num_var + num_rest
     for i in range(start, start + num_rest):
@@ -58,6 +61,10 @@ def main():
         idx += 1
 
     final_simplex = Simplex(aux_simplex.matrix, num_rest, num_var)
+    
+    print("Apos pivoteamento")
+    final_simplex.printMatrix()
+
     final_simplex.run()
 
 main()

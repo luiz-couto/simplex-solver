@@ -15,6 +15,10 @@ class Simplex:
         self.total = [0, num_rest + num_var + num_rest]
         self.bstart = [1, self.total[1]]
         self.bend = [num_rest, self.total[1]]
+        self.astart = [1, num_rest]
+        self.aend = [num_rest, self.total[1] - 1]
+        self.vmstart = [1,0]
+        self.vmend = [num_rest, num_rest - 1]
 
     def checkIfCIsPositive(self):
         c = self.matrix[self.cstart[0]:self.cend[0]+1, self.cstart[1]:self.total[1]]
@@ -108,20 +112,44 @@ class Simplex:
         aux = self.matrix[self.cstart[0]:self.cend[0]+1, self.cstart[1]:self.cend[1] + self.num_rest + 1]
         return aux
 
+    def getCertificate(self):
+        return self.matrix[self.verostart[0]:self.veroend[0]+1, self.verostart[1]:self.veroend[1]+1][0]
+
+    def getA(self):
+        return self.matrix[self.astart[0]:self.aend[0]+1, self.astart[1]:self.aend[1]+1]
+    
+    def getB(self):
+        return self.matrix[self.bstart[0]:self.bend[0]+1, self.bstart[1]]
+
+    def getC(self):
+        return self.matrix[self.cstart[0]:self.cend[0]+1, self.cstart[1]:self.cend[1]+1][0]
+    
+    def getTotal(self):
+        return self.matrix[self.total[0]][self.total[1]]
+
+    def getVero(self):
+        return self.matrix[self.vmstart[0]:self.vmend[0]+1, self.vmstart[1]:self.vmend[1]+1]
+
+    def getAllC(self):
+        return self.matrix[self.cstart[0]:self.cend[0]+1, self.cstart[1]:self.cend[1] + self.num_rest + 1][0]
+
+    def printMatrix(self):
+        print_slack_form(self.getVero(), self.getCertificate(), self.getA(), self.getB(), self.getAllC(), self.getTotal())
+
     def run(self):
         if self.checkIfCIsPositive():
-            np.set_printoptions(formatter={'float': lambda x: "{0:0.2f}".format(x)})
             print(self.getCurrentSolution())
-            print(self.matrix)
+            self.printMatrix()
             return
         
         pivot_line, pivot_column = self.selectPivot()
         if pivot_line == -1:
-            print(self.matrix)
+            self.printMatrix()
             print("Ilimitada")
             return
 
         pivoting(self.matrix, pivot_line, pivot_column)
+        self.printMatrix()
 
         self.run()
                     

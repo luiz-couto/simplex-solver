@@ -41,3 +41,33 @@ def pivoting(matrix, line_i, column_j):
         factor = -selected/elem
         line = multiplyLineAndReturn(matrix, line_i, factor)
         sumLines(matrix, line, i)
+
+
+def print_slack_form(vero, certificate, A, b, c, v):
+    for j in range(len(certificate)):
+        print('{:4}'.format(round(certificate[j],2)), end=" ")
+    
+    print('{:4}'.format(""), end="")
+    
+    for j in range(len(c)):
+        print('{:4}'.format(round(c[j],2)), end=" ")
+    print('{:4}'.format("="), end=" ")
+    
+    print('{:4}'.format(round(v,2)), end="")
+    
+    print()
+    for j in range((len(certificate) + len(c))*2 + 2):
+        print("---", end="")
+    print()
+
+    for i in range(A.shape[0]):
+        for j in range(vero.shape[1]):
+            print('{:4}'.format(round(vero[i][j],2)), end=" ")
+        print('{:4}'.format(""), end="")
+        for j in range(A.shape[1]):
+            print('{:4}'.format(round(A[i][j],2)), end=" ")
+        print('{:4}'.format("="), end=" ")
+        print('{:4}'.format(round(b[i],2)))
+    
+    print()
+    print()

@@ -26,9 +26,16 @@ def main():
         line_copy = np.multiply(line_copy,-1)
         sumLines(aux_simplex.matrix, line_copy, 0)
     
+    print("Apos montar auxiliar")
+    aux_simplex.printMatrix()
 
     aux_simplex.run()
     
+    if not np.isclose(aux_simplex.getTotal(), 0):
+        aux_simplex.printMatrix()
+        print("Inviavel")
+        return
+
     aux_sol = aux_simplex.getCurrentSolution()
 
     orig_c = simplex.getCandAux()

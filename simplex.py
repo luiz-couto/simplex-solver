@@ -104,6 +104,9 @@ class Simplex:
 
         return num_var, num_rest, aux
 
+    def getCandAux(self):
+        aux = self.matrix[self.cstart[0]:self.cend[0]+1, self.cstart[1]:self.cend[1] + self.num_rest + 1]
+        return aux
 
     def run(self):
         if self.checkIfCIsPositive():

@@ -21,15 +21,43 @@ def main():
     aux_num_var, aux_num_rest, aux = simplex.createAuxMatrix()
     aux_simplex = Simplex(aux, aux_num_rest, aux_num_var)
     
-    print(aux_simplex.matrix)
-
     for line in aux_simplex.matrix[1:]:
         line_copy = np.copy(line)
         line_copy = np.multiply(line_copy,-1)
         sumLines(aux_simplex.matrix, line_copy, 0)
     
 
-    print(aux_simplex.matrix)
     aux_simplex.run()
+    
+    aux_sol = aux_simplex.getCurrentSolution()
+
+    orig_c = simplex.getCandAux()
+    aux_simplex.matrix[aux_simplex.cstart[0]:aux_simplex.cend[0]+1, aux_simplex.cstart[1]:aux_simplex.cend[1]+1] = orig_c
+
+    col_to_remove = []
+    start = num_rest + num_var + num_rest
+    for i in range(start, start + num_rest):
+        col_to_remove.append(i)
+    
+    aux_simplex.matrix = np.delete(aux_simplex.matrix, col_to_remove, axis=1)
+
+    idx = 0
+    for x in aux_sol:
+        if x > 0:
+            col = aux_simplex.num_rest + idx
+            line = 0
+            idx_line = 1
+            for i in aux_simplex.matrix[1:, col]:
+                if i == 1:
+                    line = idx_line
+                    break
+                idx_line += 1
+
+            pivoting(aux_simplex.matrix, line, col)    
+
+        idx += 1
+
+    final_simplex = Simplex(aux_simplex.matrix, num_rest, num_var)
+    final_simplex.run()
 
 main()

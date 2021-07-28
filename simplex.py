@@ -30,13 +30,16 @@ class Simplex:
             if self.matrix[0][c] < 0:
                 selected_column = c
                 break
-        
+
         min_ratio = 1000
         pivot_line = 0
         for i in range(1, self.num_lines):
             if self.matrix[i][selected_column] > 0 and self.matrix[i,self.total[1]]/self.matrix[i][selected_column] < min_ratio:
                 min_ratio = self.matrix[i,self.total[1]]/self.matrix[i][selected_column]
                 pivot_line = i
+        
+        if pivot_line == 0:
+            return -1, -1
 
         return pivot_line, selected_column
 
@@ -76,6 +79,10 @@ class Simplex:
             return
         
         pivot_line, pivot_column = self.selectPivot()
+        if pivot_line == -1:
+            print("Ilimitada")
+            return
+
         pivoting(self.matrix, pivot_line, pivot_column)
 
         self.run()

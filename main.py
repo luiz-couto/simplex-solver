@@ -51,6 +51,8 @@ def main():
     
     aux_simplex.matrix = np.delete(aux_simplex.matrix, col_to_remove, axis=1)
 
+    aux_simplex.resetVero()
+
     idx = 0
     for x in aux_sol:
         if x > 0:

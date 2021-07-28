@@ -83,13 +83,13 @@ class Simplex:
         aux = self.matrix[self.bstart[0]:self.bend[0]+1, self.cstart[1]:self.cend[1]+self.num_rest+1]
         zer = np.zeros((1, self.num_var + self.num_rest))
         aux = np.concatenate((zer, aux))
-        
-        ones = np.full((1, self.num_rest), -1)
+
+        ones = np.full((1, self.num_rest), 1)
         id = np.identity(self.num_rest)
         id = np.concatenate((ones,id))
-        
+
         aux = np.concatenate((aux,id),axis=1)
-        
+
         b = self.matrix[self.bstart[0]-1:self.bend[0]+1, self.bstart[1]:self.bend[1]+1]
         aux = np.concatenate((aux, b), axis=1)
 
@@ -103,7 +103,6 @@ class Simplex:
         num_rest = self.num_rest
 
         return num_var, num_rest, aux
-
 
 
     def run(self):

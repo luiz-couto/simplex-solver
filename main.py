@@ -20,7 +20,9 @@ def main():
 
     aux_num_var, aux_num_rest, aux = simplex.createAuxMatrix()
     aux_simplex = Simplex(aux, aux_num_rest, aux_num_var)
-    
+
+    aux_simplex.printMatrix()
+
     for line in aux_simplex.matrix[1:]:
         line_copy = np.copy(line)
         line_copy = np.multiply(line_copy,-1)

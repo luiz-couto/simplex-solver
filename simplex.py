@@ -43,7 +43,7 @@ class Simplex:
                 pivot_line = i
         
         if pivot_line == 0:
-            return -1, -1
+            return -1, selected_column
 
         return pivot_line, selected_column
 
@@ -51,7 +51,8 @@ class Simplex:
         solution = np.zeros((0))
         for j in range(self.cstart[1], self.cend[1] + 1):
             if self.matrix[0][j] == 0:
-                solution = np.append(solution, self.getVariableValue(j))
+                sol, _ = self.getVariableValue(j)
+                solution = np.append(solution, sol)
             else:
                 solution = np.append(solution, 0)
         
@@ -73,7 +74,7 @@ class Simplex:
                     return 0
             index += 1
         
-        return self.matrix[one_line_i, self.total[1]]
+        return self.matrix[one_line_i, self.total[1]], one_line_i
 
     def checkForNonPositiveBs(self):
         nonPositve = []
@@ -108,9 +109,38 @@ class Simplex:
 
         return num_var, num_rest, aux
 
+    def getUnboundedCertificate(self, column):
+        c_column = column - self.num_rest
+        d = np.zeros(self.num_var + self.num_rest)
+        d[c_column] = 1
+
+        idx = 0
+        for j in range(self.cstart[1], self.cend[1] + 1):
+            if idx == c_column:
+                idx += 1
+                continue
+
+            if self.matrix[0][j] == 0:
+                _, one_line_i = self.getVariableValue(j)
+                val = self.matrix[one_line_i][column] * -1
+                d[idx] = val
+            else:
+                d[idx] = 0
+
+            idx += 1
+        
+        d = d[:self.num_var]
+        print(d)
+        return d
+
+
     def resetVero(self):
         for j in range(self.verostart[1], self.veroend[1]+1):
             self.matrix[0][j] = 0
+
+    def multiplyVero(self, factor):
+        for j in range(self.verostart[1], self.veroend[1]+1):
+            self.matrix[0][j] = self.matrix[0][j] * factor
 
     def getCandAux(self):
         aux = self.matrix[self.cstart[0]:self.cend[0]+1, self.cstart[1]:self.cend[1] + self.num_rest + 1]
@@ -149,6 +179,7 @@ class Simplex:
         pivot_line, pivot_column = self.selectPivot()
         if pivot_line == -1:
             self.printMatrix()
+            self.getUnboundedCertificate(pivot_column)
             print("Ilimitada")
             return
 

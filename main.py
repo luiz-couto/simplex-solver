@@ -16,8 +16,10 @@ def main():
         return
 
     for line in nonPos:
-        divideLine(simplex.matrix, line, -1)
+        divideLine(simplex.matrix, int(line), -1)
 
-    print(simplex.matrix)
+    aux_num_var, aux_num_rest, aux = simplex.createAuxMatrix()
+    aux_simplex = Simplex(aux, aux_num_rest, aux_num_var)
+    aux_simplex.run()
 
 main()

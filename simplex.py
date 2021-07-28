@@ -71,6 +71,14 @@ class Simplex:
         
         return self.matrix[one_line_i, self.total[1]]
 
+    def checkForNonPositiveBs(self):
+        nonPositve = []
+        for i in range(self.bstart[0], self.bend[0] + 1):
+            if (self.matrix[i][self.total[1]] < 0):
+                nonPositve = np.append(nonPositve, i)
+        
+        return nonPositve
+
     def run(self):
         if self.checkIfCIsPositive():
             np.set_printoptions(formatter={'float': lambda x: "{0:0.2f}".format(x)})

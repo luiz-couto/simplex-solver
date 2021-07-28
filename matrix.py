@@ -34,10 +34,6 @@ def pivoting(matrix, line_i, column_j):
     divideLine(matrix, line_i, elem)
     elem = matrix[line_i, column_j]
 
-    print("AFTER DIVIDE")
-    print(matrix)
-    print("----------------------")
-
     for i in range(0, len(matrix)):
         selected = matrix[i][column_j]
         if i == line_i or selected == 0:

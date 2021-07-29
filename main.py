@@ -15,11 +15,11 @@ def main():
         simplex.run()
         return
 
-    for line in nonPos:
-        divideLine(simplex.matrix, int(line), -1)
-
     aux_num_var, aux_num_rest, aux = simplex.createAuxMatrix()
     aux_simplex = Simplex(aux, aux_num_rest, aux_num_var)
+    
+    for line in nonPos:
+        divideLine(aux_simplex.matrix, int(line), -1)
 
     aux_simplex.printMatrix()
 

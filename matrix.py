@@ -1,5 +1,4 @@
 import numpy as np
-from numpy.matrixlib.defmatrix import matrix
 
 def initMatrix(num_rest, num_var):
     matrix = np.zeros((1 + num_rest, num_rest + num_var + num_rest + 1))

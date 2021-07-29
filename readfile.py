@@ -41,4 +41,11 @@ def readInputMatrix(matrix, num_rest, num_var):
             matrix[i][j] = rest[rest_index]
             rest_index += 1
 
+def printArray(arr):
+    for item in arr:
+        print( ('%f' % round(item, 7)).rstrip('0').rstrip('.'), end=" ")
+    print()
 
+def printNumber(num):
+    print( ('%f' % round(num, 7)).rstrip('0').rstrip('.'), end=" ")
+    print()

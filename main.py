@@ -29,7 +29,7 @@ def main():
     
     if not np.isclose(aux_simplex.getTotal(), 0):
         print("inviavel")
-        print(aux_simplex.getCertificate())
+        printArray(aux_simplex.getCertificate())
         return
 
     aux_sol = aux_simplex.getCurrentSolution()

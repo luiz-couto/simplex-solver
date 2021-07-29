@@ -1,3 +1,4 @@
+from readfile import printArray, printNumber
 import numpy as np
 from matrix import *
 
@@ -130,7 +131,7 @@ class Simplex:
             idx += 1
         
         d = d[:self.num_var]
-        print(d)
+        printArray(d)
         return d
 
 
@@ -174,16 +175,17 @@ class Simplex:
         if self.checkIfCIsPositive():
             if printType == 'print':
                 print('otima')
-                print(self.getTotal())
-                print(self.getCurrentSolution())
-                print(self.getCertificate())
+                printNumber(self.getTotal())
+                printArray(self.getCurrentSolution())
+                printArray(self.getCertificate())
             return
         
         pivot_line, pivot_column = self.selectPivot()
         if pivot_line == -1:
-            print("ilimitada")
-            print(self.getCurrentSolution())
-            self.getUnboundedCertificate(pivot_column)
+            if printType == 'print':
+                print("ilimitada")
+                printArray(self.getCurrentSolution())
+                self.getUnboundedCertificate(pivot_column)
             return
 
         pivoting(self.matrix, pivot_line, pivot_column)

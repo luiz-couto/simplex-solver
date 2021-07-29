@@ -64,14 +64,14 @@ class Simplex:
         index = 1
         for item in column:
             if item != 0 and item != 1:
-                return 0
+                return 0, 0
             if item == 1:
                 if one_line_i == 0:
                     one_line_i = index
                     index += 1
                     continue
                 else:
-                    return 0
+                    return 0, 0
             index += 1
         
         return self.matrix[one_line_i, self.total[1]], one_line_i
@@ -170,22 +170,24 @@ class Simplex:
     def printMatrix(self):
         print_slack_form(self.getVero(), self.getCertificate(), self.getA(), self.getB(), self.getAllC(), self.getTotal())
 
-    def run(self):
+    def run(self, printType = 'print'):
         if self.checkIfCIsPositive():
-            print(self.getCurrentSolution())
-            self.printMatrix()
+            if printType == 'print':
+                print('otima')
+                print(self.getTotal())
+                print(self.getCurrentSolution())
+                print(self.getCertificate())
             return
         
         pivot_line, pivot_column = self.selectPivot()
         if pivot_line == -1:
-            self.printMatrix()
+            print("ilimitada")
+            print(self.getCurrentSolution())
             self.getUnboundedCertificate(pivot_column)
-            print("Ilimitada")
             return
 
         pivoting(self.matrix, pivot_line, pivot_column)
-        self.printMatrix()
 
-        self.run()
+        self.run(printType)
                     
 

@@ -8,7 +8,6 @@ def main():
     readInputMatrix(matrix, num_rest, num_var)
 
     simplex = Simplex(matrix, num_rest, num_var)
-    simplex.printMatrix()
     
     nonPos = simplex.checkForNonPositiveBs()
     if len(nonPos) == 0:
@@ -21,21 +20,16 @@ def main():
     for line in nonPos:
         divideLine(aux_simplex.matrix, int(line), -1)
 
-    aux_simplex.printMatrix()
-
     for line in aux_simplex.matrix[1:]:
         line_copy = np.copy(line)
         line_copy = np.multiply(line_copy,-1)
         sumLines(aux_simplex.matrix, line_copy, 0)
-    
-    print("Apos montar auxiliar")
-    aux_simplex.printMatrix()
 
-    aux_simplex.run()
+    aux_simplex.run('no-print')
     
     if not np.isclose(aux_simplex.getTotal(), 0):
-        aux_simplex.printMatrix()
-        print("Inviavel")
+        print("inviavel")
+        print(aux_simplex.getCertificate())
         return
 
     aux_sol = aux_simplex.getCurrentSolution()
@@ -43,16 +37,12 @@ def main():
     orig_c = simplex.getCandAux()
     aux_simplex.matrix[aux_simplex.cstart[0]:aux_simplex.cend[0]+1, aux_simplex.cstart[1]:aux_simplex.cend[1]+1] = orig_c
 
-    print("Apos substituicao do C")
-    aux_simplex.printMatrix()
-
     col_to_remove = []
     start = num_rest + num_var + num_rest
     for i in range(start, start + num_rest):
         col_to_remove.append(i)
     
     aux_simplex.matrix = np.delete(aux_simplex.matrix, col_to_remove, axis=1)
-
     aux_simplex.resetVero()
 
     idx = 0
@@ -72,10 +62,6 @@ def main():
         idx += 1
 
     final_simplex = Simplex(aux_simplex.matrix, num_rest, num_var)
-    
-    print("Apos pivoteamento")
-    final_simplex.printMatrix()
-
     final_simplex.run()
 
 main()

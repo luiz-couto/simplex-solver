@@ -1,4 +1,4 @@
-from readfile import printArray, printNumber
+from readfile_simplex import printArray, printNumber
 import numpy as np
 from matrix import *
 

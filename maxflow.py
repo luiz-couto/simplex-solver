@@ -10,3 +10,6 @@ class MaxFlow:
     
     def create_simplex_matrix(self):
         pass
+
+    def run():
+        pass

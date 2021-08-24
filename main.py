@@ -1,6 +1,7 @@
 import numpy as np
 from matrix import *
 from simplex import *
+import maxflow
 
 def main():
     # read file
@@ -16,7 +17,10 @@ def main():
         for j in range(num_edges):
             incid_matrix[i][j] = line[j]
     
-    print(incid_matrix)
+    
+    # creating and running max flow
+    max_flow = maxflow.MaxFlow(num_vertices, num_edges, weigths, incid_matrix)
+    max_flow.run()
 
 
 if __name__ == "__main__":

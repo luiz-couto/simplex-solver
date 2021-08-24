@@ -1,5 +1,5 @@
 from matrix import *
-from readfile import *
+from readfile_simplex import *
 from simplex import *
 
 def main():

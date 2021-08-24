@@ -3,17 +3,21 @@ import numpy as np
 from matrix import *
 
 class Simplex:
-    def __init__(self, matrix, num_rest, num_var):
+    def __init__(self, matrix, num_rest, num_var, has_slack_variables = True):
+        aux = 0
+        if has_slack_variables:
+            aux = num_rest
+
         self.matrix = matrix
         self.num_rest = num_rest
         self.num_var = num_var
         self.num_lines = num_rest + 1
-        self.num_columns = num_rest + num_var + num_rest + 1
+        self.num_columns = num_rest + num_var + aux + 1
         self.verostart = [0, 0]
         self.veroend = [0, num_rest - 1]
         self.cstart = [0, num_rest]
         self.cend = [0, num_rest + num_var - 1]
-        self.total = [0, num_rest + num_var + num_rest]
+        self.total = [0, num_rest + num_var + aux]
         self.bstart = [1, self.total[1]]
         self.bend = [num_rest, self.total[1]]
         self.astart = [1, num_rest]
@@ -188,6 +192,7 @@ class Simplex:
                 self.getUnboundedCertificate(pivot_column)
             return
 
+        #self.printMatrix()
         pivoting(self.matrix, pivot_line, pivot_column)
 
         self.run(printType)

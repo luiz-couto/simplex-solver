@@ -54,4 +54,4 @@ class MaxFlow:
         num_var = self.num_edges
 
         simplex = Simplex(matrix, num_rest, num_var, has_slack_variables=False)
-        simplex.run()
+        simplex.run(printType='maxflow')

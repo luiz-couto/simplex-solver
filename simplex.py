@@ -182,6 +182,21 @@ class Simplex:
                 printNumber(self.getTotal())
                 printArray(self.getCurrentSolution())
                 printArray(self.getCertificate())
+            
+            elif printType == 'maxflow':
+                printNumber(self.getTotal())
+                printArray(self.getCurrentSolution())
+
+                v = self.num_rest + 2 - self.num_var
+                e = self.num_var
+
+                vero_cert = self.getCertificate()
+                certificate = np.zeros(v)
+                certificate[0] = 1
+                certificate[1:-1] = vero_cert[0:v-2]
+
+                printArray(certificate)
+
             return
         
         pivot_line, pivot_column = self.selectPivot()
@@ -192,8 +207,8 @@ class Simplex:
                 self.getUnboundedCertificate(pivot_column)
             return
 
-        #self.printMatrix()
         pivoting(self.matrix, pivot_line, pivot_column)
+        #self.printMatrix()
 
         self.run(printType)
                     
